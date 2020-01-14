@@ -9,46 +9,54 @@ const templates = require('./templates')
  */
 function activate(context) {
   let disposable = vscode.commands.registerCommand(
-    'extension.craCreateNewView',
+    'extension.craCreateNew',
     async () => {
       // Get the rootpath of the workspace
       // NOTE: this extension is designed for single folder workspaces
       const rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath
 
-      const viewName = await vscode.window.showInputBox({
-        prompt: 'View name',
-        placeHolder: 'Use PascalCase!',
+      let itemType = await vscode.window.showQuickPick(['View', 'Component'], {
+        placeholder: 'Choose item type',
+        canPickMany: false,
         ignoreFocusOut: true
       })
 
-      // Create View directory if it doesn't already exist
-      if (!fs.existsSync(path.join(rootPath, `/src/View`))) {
-        fs.mkdirSync(path.join(rootPath, `/src/View`))
+      if (itemType === undefined) {
+        itemType = 'View'
       }
 
-      // Check directory doesn't already exist
-      if (fs.existsSync(path.join(rootPath, `/src/View/${viewName}`))) {
+      const itemName = await vscode.window.showInputBox({
+        prompt: 'Item name',
+        ignoreFocusOut: true
+      })
+
+      // Check itemName directory doesn't already exist
+      if (fs.existsSync(path.join(rootPath, `/src/${itemType}/${itemName}`))) {
         // Show error message
         vscode.window.showErrorMessage('Directory already exists, exiting')
-        // Return early?
         return
       }
 
-      // Create new directory for View
-      fs.mkdirSync(path.join(rootPath, `/src/View/${viewName}`))
+      // Create itemType directory if it doesn't already exist
+      if (!fs.existsSync(path.join(rootPath, `/src/${itemType}`))) {
+        fs.mkdirSync(path.join(rootPath, `/src/${itemType}`))
+      }
 
-      let viewIndex = templates.viewIndex.replace(/{{viewName}}/g, viewName)
+      // Create new directory for item
+      fs.mkdirSync(path.join(rootPath, `/src/${itemType}/${itemName}`))
+
+      let itemIndex = templates.itemIndex.replace(/{{itemName}}/g, itemName)
       // Write new index.js
       fs.writeFileSync(
-        path.join(rootPath, `/src/View/${viewName}/index.js`),
-        viewIndex
+        path.join(rootPath, `/src/${itemType}/${itemName}/index.js`),
+        itemIndex
       )
 
-      let viewFile = templates.viewFile.replace(/{{viewName}}/g, viewName)
-      // Write new ${viewName}.js
+      let itemFile = templates.itemFile.replace(/{{itemName}}/g, itemName)
+      // Write new ${itemName}.js
       fs.writeFileSync(
-        path.join(rootPath, `/src/View/${viewName}/${viewName}.js`),
-        viewFile
+        path.join(rootPath, `/src/${itemType}/${itemName}/${itemName}.js`),
+        itemFile
       )
 
       vscode.window.showInformationMessage('Done!')

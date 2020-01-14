@@ -1,21 +1,21 @@
-const viewIndex = `import {{viewName}} from './{{viewName}}'
+const itemIndex = `import {{itemName}} from './{{itemName}}'
 
-export default {{viewName}}`
+export default {{itemName}}`
 
-const viewFile = `import React from 'react'
+const itemFile = `import React from 'react'
 
-const {{viewName}} = () => {
+const {{itemName}} = () => {
   return (
     <>
-      <h1>{{viewName}}</h1>
+      <h1>{{itemName}}</h1>
     </>
   )
 }
 
-export default {{viewName}}
+export default {{itemName}}
 `
 
 module.exports = {
-  viewIndex,
-  viewFile
+  itemIndex,
+  itemFile
 }

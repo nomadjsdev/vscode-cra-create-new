@@ -21,14 +21,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.craCreateNewView"
+    "onCommand:extension.craCreateNew"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.craCreateNewView",
-        "title": "CRA Create new view"
+        "command": "extension.craCreateNew",
+        "title": "CRA Create New "
       }
     ]
   },
