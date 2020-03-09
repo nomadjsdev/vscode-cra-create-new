@@ -32,9 +32,9 @@ None
 
 ## Release Notes
 
-### 1.1.0
+### 1.1.1
 
-Update to create either Views or Components
+Update to itemFile template
 
 ---
 

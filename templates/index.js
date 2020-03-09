@@ -6,9 +6,9 @@ const itemFile = `import React from 'react'
 
 const {{itemName}} = () => {
   return (
-    <>
+    <React.Fragment>
       <h1>{{itemName}}</h1>
-    </>
+    </React.Fragment>
   )
 }
 
